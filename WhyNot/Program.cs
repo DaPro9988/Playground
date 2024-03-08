@@ -1,32 +1,28 @@
 using WhyNot.Components;
 
-namespace WhyNot
+namespace WhyNot;
+
+public class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+        var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddRazorComponents()
-                .AddInteractiveServerComponents();
+        // Add services to the container.
+        builder.Services.AddRazorComponents()
+            .AddInteractiveServerComponents();
 
-            var app = builder.Build();
+        var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Error");
-            }
+        // Configure the HTTP request pipeline.
+        if (!app.Environment.IsDevelopment()) app.UseExceptionHandler("/Error");
 
-            app.UseStaticFiles();
-            app.UseAntiforgery();
+        app.UseStaticFiles();
+        app.UseAntiforgery();
 
-            app.MapRazorComponents<App>()
-                .AddInteractiveServerRenderMode();
+        app.MapRazorComponents<App>()
+            .AddInteractiveServerRenderMode();
 
-            app.Run();
-        }
+        app.Run();
     }
 }
