@@ -13,8 +13,11 @@ namespace Genshin
             Console.WriteLine(greeting);
             var ticTacToe = new TicTacToe();
             ticTacToe.ShowBoard();
-            ticTacToe.Asking();
-            ticTacToe.ShowBoard();
+            while (true)
+            {
+                ticTacToe.Asking();
+                ticTacToe.ShowBoard();
+            };
         }
     }
 }
