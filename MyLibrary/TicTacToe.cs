@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using System.ComponentModel;
 
 namespace MyLibrary;
 
@@ -56,6 +57,14 @@ public class TicTacToe
                 break;
         }
     }
+    public string GetDescription(Choices choice)
+    {
+        return typeof(Choices).GetField(Enum.GetName(typeof(Choices), choice))
+            ?.GetCustomAttributes(false)
+            .OfType<DescriptionAttribute>()
+            .SingleOrDefault()
+            ?.Description;
+    }
     public Places GetPlayerChoice()
     {
         Console.WriteLine("choose location");
@@ -85,13 +94,13 @@ public class TicTacToe
         string board =
  @$"
       |        |      
-   {Board[0, 0]}  |    {Board[0, 1]}   |    {Board[0, 2]}
+   {GetDescription(Board[0, 0])}1  |    {GetDescription(Board[0, 1])}2   |    {GetDescription(Board[0, 2])}3
 ______|________|________
       |        |
-   {Board[1, 0]}  |    {Board[1, 1]}   |    {Board[1, 2]}
+   {GetDescription(Board[1, 0])}4  |    {GetDescription(Board[1, 1])}5   |    {GetDescription(Board[1, 2])}6
 ______|________|________
       |        |
-   {Board[2, 0]}  |    {Board[2, 1]}   |    {Board[2, 2]}
+   {GetDescription(Board[2, 0])}7  |    {GetDescription(Board[2, 1])}8   |    {GetDescription(Board[2, 2])}9
       |        |";
         Console.WriteLine(board);
 
