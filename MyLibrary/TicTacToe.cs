@@ -8,8 +8,8 @@ public class TicTacToe
     public enum Choices
     {
         Empty,
-        X,
-        O
+        [Description("X")] X,
+        [Description("O")] O
     }
     public enum Places
     {
@@ -24,11 +24,13 @@ public class TicTacToe
         bottomright
 
     }
-    public void Choosing(Choices choice, Places place)
+    public bool Choosing(Choices choice, Places place)
     {
         switch (place)
         {
             case Places.top:
+                if (Board[0, 1] != Choices.Empty)
+                    return False;
                 Board[0, 1] = choice;
                 break;
             case Places.topleft:
@@ -56,21 +58,22 @@ public class TicTacToe
                 Board[2, 2] = choice;
                 break;
         }
+        return true;
     }
-    public string GetDescription(Choices choice)
+    public string GetDescription(Choices choice, string showifnull)
     {
         return typeof(Choices).GetField(Enum.GetName(typeof(Choices), choice))
             ?.GetCustomAttributes(false)
             .OfType<DescriptionAttribute>()
             .SingleOrDefault()
-            ?.Description;
+            ?.Description ?? showifnull;
     }
     public Places GetPlayerChoice()
     {
         Console.WriteLine("choose location");
         var input = Console.ReadLine();
         int placeNumber;
-        while (!int.TryParse(input, out placeNumber) || !(0<placeNumber&&placeNumber<10))
+        while (!int.TryParse(input, out placeNumber) || !(0 < placeNumber && placeNumber < 10))
         {
             Console.WriteLine("that is not a choice choose from:" +
                 "        topleft,top,middleright,topright,middleleft,middle,bottomleft,bottom,bottomright");
@@ -82,6 +85,7 @@ public class TicTacToe
     public void Asking(string playerX, string playerO)
     {
         Console.WriteLine(playerX);
+        do { }while
         var place = GetPlayerChoice();
         Choosing(Choices.X, place);
         Console.WriteLine(playerO);
@@ -94,13 +98,13 @@ public class TicTacToe
         string board =
  @$"
       |        |      
-   {GetDescription(Board[0, 0])}1  |    {GetDescription(Board[0, 1])}2   |    {GetDescription(Board[0, 2])}3
+   {GetDescription(Board[0, 0], "1")} |   {GetDescription(Board[0, 1], "2")}   |    {GetDescription(Board[0, 2], "3")}
 ______|________|________
       |        |
-   {GetDescription(Board[1, 0])}4  |    {GetDescription(Board[1, 1])}5   |    {GetDescription(Board[1, 2])}6
+   {GetDescription(Board[1, 0], "4")} |   {GetDescription(Board[1, 1], "5")}   |    {GetDescription(Board[1, 2], "6")}
 ______|________|________
       |        |
-   {GetDescription(Board[2, 0])}7  |    {GetDescription(Board[2, 1])}8   |    {GetDescription(Board[2, 2])}9
+   {GetDescription(Board[2, 0], "7")} |   {GetDescription(Board[2, 1], "8")}   |    {GetDescription(Board[2, 2], "9")}
       |        |";
         Console.WriteLine(board);
 
